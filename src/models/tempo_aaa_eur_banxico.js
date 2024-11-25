@@ -1,40 +1,56 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
 
-export const IndicatorMoney = sequelize.define('indicator_money', {
-    indicator_money_id: {
+
+export const TEMPO_AAA_EUR_BANXICO = sequelize.define('TEMPO_AAA_EUR_BANXICO', {
+    ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    indicator_money_fecha: {
+    Fecha: {
         type: DataTypes.DATE,
     },
-    indicator_money_SF290383: {
+    SF60653: {
         type: DataTypes.FLOAT(6,4),
         allowNull: true,
     },
-    indicator_money_SF46405: {
+    SF43718: {
         type: DataTypes.FLOAT(6,4),
         allowNull: true,
     },
-    indicator_money_SF46406: {
+    SF43787: {
         type: DataTypes.FLOAT(6,4),
         allowNull: true,
     },
-    indicator_money_SF46407: {
+    SF43784: {
         type: DataTypes.FLOAT(6,4),
         allowNull: true,
     },
-    indicator_money_SF46410: {
+    SF43788: {
         type: DataTypes.FLOAT(6,4),
         allowNull: true,
     },
-    indicator_money_SF46411: {
+    SF43786: {
         type: DataTypes.FLOAT(6,4),
         allowNull: true,
     },
-
+    SF43785: {
+        type: DataTypes.FLOAT(6,4),
+        allowNull: true,
+    },
+    SF43717: {
+        type: DataTypes.FLOAT(6,4),
+        allowNull: true,
+    },
+    SF63528: {
+        type: DataTypes.FLOAT(6,4),
+        allowNull: true,
+    },
+    SF343410: {
+        type: DataTypes.FLOAT(6,4),
+        allowNull: true,
+    },
 }, {
     freezeTableName: true,
     timestamps: false,

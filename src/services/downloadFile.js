@@ -3,12 +3,22 @@ import path from 'path';
 import fs from 'fs';
 
 
+const getMostRecentFile = (directory) => {
+  const files = fs.readdirSync(directory);
+  return files
+    .map(file => ({
+      file,
+      time: fs.statSync(path.join(directory, file)).mtime.getTime(),
+    }))
+    .sort((a, b) => b.time - a.time)[0]?.file;
+};
+
 export const downloadFileFromBanxico = async ({ url, anoInicial, anoFinal, downloadFolder = 'downloads' }) => {
-  const downloadPath = path.resolve(downloadFolder); // Carpeta para guardar el archivo descargado
+  const downloadPath = path.resolve(downloadFolder);
   if (!fs.existsSync(downloadPath)) fs.mkdirSync(downloadPath);
 
   const browser = await puppeteer.launch({
-    headless: true, 
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
@@ -26,36 +36,41 @@ export const downloadFileFromBanxico = async ({ url, anoInicial, anoFinal, downl
     console.log(`Navegando a la URL: ${url}`);
     await page.goto(url, { waitUntil: 'networkidle2' });
 
-
-    /* name value select de la web */
     console.log(`Seleccionando año inicial: ${anoInicial}`);
     await page.waitForSelector('#anoInicial');
     await page.select('#anoInicial', anoInicial);
 
-    /* name value select de la web */
     console.log(`Seleccionando año final: ${anoFinal}`);
     await page.waitForSelector('#anoFinal');
     await page.select('#anoFinal', anoFinal);
-
-    //alparecer las 2 son el mismo atributo
 
     console.log('Haciendo clic en el botón de exportar...');
     await page.waitForSelector('#exportarSeriesFormatoXLS');
     await page.click('#exportarSeriesFormatoXLS');
 
     console.log('Esperando que se complete la descarga...');
-    //aqui puedo editar cuanto tiempo quiero que dure la descarga, falta remediar la forma de esperar
     await delay(15000);
 
-    console.log(`Archivo descargado en: ${downloadPath}`);
-    await browser.close();
-    return path.join(downloadPath, 'archivo.xls');
+    // Buscar archivo descargado
+    const fileName = getMostRecentFile(downloadPath);
+    const filePath = fileName ? path.join(downloadPath, fileName) : null;
+
+    if (filePath) {
+      console.log(`Archivo detectado: ${filePath}`);
+      await browser.close();
+      return filePath;
+    } else {
+      console.error('No se pudo detectar el archivo descargado.');
+      await browser.close();
+      return null;
+    }
   } catch (error) {
     console.error('Error al automatizar la descarga:', error.message);
     await browser.close();
     return null;
   }
 };
+
 
 // Llamar a la función principal para la primera URL
 /* const main = async () => {
