@@ -58,7 +58,7 @@ export const downloadFileFromBanxico = async ({ url, anoInicial, anoFinal, downl
 };
 
 // Llamar a la función principal para la primera URL
-const main = async () => {
+/* const main = async () => {
   const urls = [
     {
       url: 'https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?accion=consultarCuadroAnalitico&idCuadro=CA91',
@@ -83,4 +83,4 @@ const main = async () => {
   }
 };
 
-main();
+main(); */
