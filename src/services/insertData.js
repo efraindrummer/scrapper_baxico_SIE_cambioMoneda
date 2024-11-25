@@ -1,7 +1,11 @@
-/* import TipoCambio from './models/TipoCambio.js'; */
+
+//TODO: MODELO DEL DE SEQUELIZE PARA CARGAR LA INFORMACION
 
 export const insertData = async (data) => {
-  /* try {
+
+  console.log('insert_data....')
+
+  try {
     // Inserción masiva
     await TipoCambio.bulkCreate(data, {
       ignoreDuplicates: true, // Ignorar duplicados si tienes restricciones
@@ -10,6 +14,6 @@ export const insertData = async (data) => {
     console.log('Datos insertados correctamente.');
   } catch (error) {
     console.error('Error al insertar datos:', error.message);
-  } */
+  }
 };
 

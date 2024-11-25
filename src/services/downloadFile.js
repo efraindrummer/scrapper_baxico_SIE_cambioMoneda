@@ -2,19 +2,18 @@ import puppeteer from 'puppeteer';
 import path from 'path';
 import fs from 'fs';
 
-// Función genérica para descargar archivos desde Banxico
+
 export const downloadFileFromBanxico = async ({ url, anoInicial, anoFinal, downloadFolder = 'downloads' }) => {
   const downloadPath = path.resolve(downloadFolder); // Carpeta para guardar el archivo descargado
   if (!fs.existsSync(downloadPath)) fs.mkdirSync(downloadPath);
 
   const browser = await puppeteer.launch({
-    headless: true, // Cambia a false para depuración visual
+    headless: true, 
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
   const page = await browser.newPage();
 
-  // Configurar carpeta de descargas
   const client = await page._client();
   await client.send('Page.setDownloadBehavior', {
     behavior: 'allow',
@@ -24,31 +23,33 @@ export const downloadFileFromBanxico = async ({ url, anoInicial, anoFinal, downl
   const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
   try {
-    // Navegar a la URL proporcionada
     console.log(`Navegando a la URL: ${url}`);
     await page.goto(url, { waitUntil: 'networkidle2' });
 
-    // Seleccionar el año inicial
+
+    /* name value select de la web */
     console.log(`Seleccionando año inicial: ${anoInicial}`);
     await page.waitForSelector('#anoInicial');
     await page.select('#anoInicial', anoInicial);
 
-    // Seleccionar el año final
+    /* name value select de la web */
     console.log(`Seleccionando año final: ${anoFinal}`);
     await page.waitForSelector('#anoFinal');
     await page.select('#anoFinal', anoFinal);
 
-    // Hacer clic en el botón de exportar
+    //alparecer las 2 son el mismo atributo
+
     console.log('Haciendo clic en el botón de exportar...');
     await page.waitForSelector('#exportarSeriesFormatoXLS');
     await page.click('#exportarSeriesFormatoXLS');
 
     console.log('Esperando que se complete la descarga...');
-    await delay(15000); // Ajusta según el tiempo necesario para descargar el archivo
+    //aqui puedo editar cuanto tiempo quiero que dure la descarga, falta remediar la forma de esperar
+    await delay(15000);
 
     console.log(`Archivo descargado en: ${downloadPath}`);
     await browser.close();
-    return path.join(downloadPath, 'archivo.xls'); // Cambia 'archivo.xls' si el nombre esperado es diferente
+    return path.join(downloadPath, 'archivo.xls');
   } catch (error) {
     console.error('Error al automatizar la descarga:', error.message);
     await browser.close();
