@@ -49,10 +49,10 @@ const runTask = async () => {
 
       if (url.includes('idCuadro=CA91')) {
         data = processFile2(filePath);
-        if (data && data.length > 0) await inser_data_tempo_aaa_eur_banxico(data);
+        if (data && data.length > 0) await inser_data_baxico(data);
       } else {
         data = processFile(filePath);
-        if (data && data.length > 0) await inser_data_baxico(data);
+        if (data && data.length > 0) await inser_data_tempo_aaa_eur_banxico(data);
       }
 
       if (fs.existsSync(filePath)) {

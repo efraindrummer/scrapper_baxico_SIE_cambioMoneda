@@ -2,36 +2,36 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
 
 export const IndicatorMoney = sequelize.define('indicator_money', {
-    indicator_money_id: {
+    ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    indicator_money_fecha: {
+    Fecha: {
         type: DataTypes.DATE,
     },
-    indicator_money_SF290383: {
-        type: DataTypes.FLOAT(6,4),
+    SF290383: {
+        type: DataTypes.STRING,
         allowNull: true,
     },
-    indicator_money_SF46405: {
-        type: DataTypes.FLOAT(6,4),
+    SF46405: {
+        type: DataTypes.STRING,
         allowNull: true,
     },
-    indicator_money_SF46406: {
-        type: DataTypes.FLOAT(6,4),
+    SF46406: {
+        type: DataTypes.STRING,
         allowNull: true,
     },
-    indicator_money_SF46407: {
-        type: DataTypes.FLOAT(6,4),
+    SF46407: {
+        type: DataTypes.STRING,
         allowNull: true,
     },
-    indicator_money_SF46410: {
-        type: DataTypes.FLOAT(6,4),
+    SF46410: {
+        type: DataTypes.STRING,
         allowNull: true,
     },
-    indicator_money_SF46411: {
-        type: DataTypes.FLOAT(6,4),
+    SF46411: {
+        type: DataTypes.STRING,
         allowNull: true,
     },
 

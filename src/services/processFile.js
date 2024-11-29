@@ -11,12 +11,11 @@ export const processFile = (filePath) => {
       header: 1, // Leer como un arreglo de arreglos
     });
 
-    // Imprimir el contenido completo del Excel para depuración
     console.log('Contenido completo del Excel:', jsonData);
 
-    // Buscar la fila que contiene los encabezados correctos
+    // Buscar la fila que contiene los encabezados correctos (como 'Fecha' y 'SF290383')
     const headerRowIndex = jsonData.findIndex(row =>
-      row.includes('Fecha') && row.includes('SF60653')
+      row.includes('Fecha') && row.some(header => header.startsWith('SF'))
     );
 
     if (headerRowIndex === -1) {
@@ -27,17 +26,18 @@ export const processFile = (filePath) => {
     const headers = jsonData[headerRowIndex]; // Encabezados reales
     console.log('Encabezados detectados:', headers);
 
-    const dataRows = jsonData.slice(headerRowIndex + 1); // Filas de datos después de los encabezados
+    // Filtrar filas de datos relevantes
+    const dataRows = jsonData.slice(headerRowIndex + 1).filter(row => row.length > 0);
 
     // Convertir las filas a objetos usando los encabezados
     const data = dataRows.map(row => {
       return headers.reduce((acc, header, index) => {
-        acc[header] = row[index] === 'N/E' ? null : row[index];
+        acc[header] = row[index] === 'N/E' || row[index] === undefined ? null : row[index];
         return acc;
       }, {});
     });
 
-    // Imprimir los datos procesados para depuración
+    // Imprimir los datos procesados
     console.log('Datos procesados del Excel:', data);
 
     return data;
@@ -46,7 +46,6 @@ export const processFile = (filePath) => {
     return null;
   }
 };
-
 
 
 
