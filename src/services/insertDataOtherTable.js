@@ -22,8 +22,12 @@ export const inser_data_tempo_aaa_eur_banxico = async (data) => {
         ])
       );
 
+      const fechaConvertida = moment("1899-12-30")
+        .add(cleanedRow.Fecha, "days")
+        .format("YYYY-MM-DD");
+
       const insert = await TEMPO_AAA_EUR_BANXICO.create({
-        Fecha: moment().format(), // Asigna la fecha actual
+        Fecha: fechaConvertida, // Asigna la fecha actual
         SF60653: cleanedRow.SF60653,
         SF43718: cleanedRow.SF43718,
         SF43787: cleanedRow.SF43787,

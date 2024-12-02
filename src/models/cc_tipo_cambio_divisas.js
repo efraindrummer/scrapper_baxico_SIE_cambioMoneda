@@ -1,40 +1,38 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
 
-export const IndicatorMoney = sequelize.define('TEMPO_AAA_EUR_BANXICO', {
+
+
+export const CC_TIPO_CAMBIO_DIVISAS = sequelize.define('CC_TIPO_CAMBIO_DIVISAS', {
     ID: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    Fecha: {
-        type: DataTypes.STRING,
-    },
-    SF290383: {
-        type: DataTypes.STRING,
+    TIPO: {
+        type: DataTypes.STRING(10),
         allowNull: true,
     },
-    SF46405: {
-        type: DataTypes.STRING,
+    UNIDAD: {
+        type: DataTypes.STRING(30),
         allowNull: true,
     },
-    SF46406: {
-        type: DataTypes.STRING,
+    FECHA: {
+        type: DataTypes.DATE,
         allowNull: true,
     },
-    SF46407: {
-        type: DataTypes.STRING,
+    IMPORTE_LIQ: {
+        type: DataTypes.STRING(10),
         allowNull: true,
     },
-    SF46410: {
-        type: DataTypes.STRING,
+    IMPORTE_FIX: {
+        type: DataTypes.STRING(10),
         allowNull: true,
     },
-    SF46411: {
-        type: DataTypes.STRING,
+    NOTA: {
+        type: DataTypes.STRING(200),
         allowNull: true,
-    },
-
+    }
 }, {
     freezeTableName: true,
     timestamps: false,

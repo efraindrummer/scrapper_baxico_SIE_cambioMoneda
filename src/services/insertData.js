@@ -15,13 +15,15 @@ export const inser_data_baxico = async (data) => {
 
     // Insertar cada fila de datos
     for (const row of data) {
-      console.log("Procesando fila:", row); // Verificar la fila actual
+      /* console.log("Procesando fila:", row); */ // Verificar la fila actual
+      // Convertir la fecha de número a formato de fecha
+      const fechaConvertida = moment("1899-12-30")
+        .add(row.Fecha, "days")
+        .format("YYYY-MM-DD");
 
       // Validar y limpiar datos
       const cleanedRow = {
-        Fecha: moment(row.Fecha, "YYYY-MM-DD").isValid()
-          ? moment(row.Fecha, "YYYY-MM-DD").toDate()
-          : null,
+        Fecha: fechaConvertida, // Asigna la fecha actual
         SF290383: row.SF290383 !== null && row.SF290383 !== undefined ? parseFloat(row.SF290383) : null,
         SF46405: row.SF46405 !== null && row.SF46405 !== undefined ? parseFloat(row.SF46405) : null,
         SF46406: row.SF46406 !== null && row.SF46406 !== undefined ? parseFloat(row.SF46406) : null,
@@ -30,7 +32,7 @@ export const inser_data_baxico = async (data) => {
         SF46411: row.SF46411 !== null && row.SF46411 !== undefined ? parseFloat(row.SF46411) : null,
       };
 
-      console.log("Fila limpia para insertar:", cleanedRow); // Verificar los datos antes de insertar
+      /* console.log("Fila limpia para insertar:", cleanedRow); */ // Verificar los datos antes de insertar
 
       // Insertar la fila en la base de datos
       await IndicatorMoney.create(cleanedRow);
