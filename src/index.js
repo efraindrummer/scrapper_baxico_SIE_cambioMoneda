@@ -7,6 +7,7 @@ import { inser_data_tempo_aaa_eur_banxico  } from "./services/insertDataOtherTab
 import { processFile, processFile2 } from "./services/processFile.js";
 import { downloadFileFromBanxico } from './services/downloadFile.js';
 import { CC_TIPO_CAMBIO_DIVISAS } from './models/cc_tipo_cambio_divisas.js';
+import moment from 'moment';
 
 const downloadsFolder = path.resolve('downloads');
 
@@ -64,14 +65,18 @@ const runTask = async () => {
             processedDataCA91 = data; // Llenar processedDataCA91
             await inser_data_baxico(data);
 
-            const ccData = data.map((row) => ({
-              FECHA: row.Fecha,
-              IMPORTE_LIQ: row.SF290383,
-              IMPORTE_FIX: row.SF46405,
-              TIPO: 'EUR',
-              UNIDAD: "peso mexicano por Euro",
-              NOTA: "Cotización de las divisas que conforman la canasta del DEG, Respecto al peso mexicano, Euro"
-            }));
+            const ccData = data.map((row, index) => {
+              const fechaConvertida1 = moment("1899-12-30").add(row.Fecha, "days").format("YYYY-MM-DD");
+
+              return {
+                FECHA: fechaConvertida1,
+                IMPORTE_LIQ: row.SF290383,
+                IMPORTE_FIX: row.SF46405,
+                TIPO: 'EUR',
+                UNIDAD: "peso mexicano por Euro",
+                NOTA: "Cotización de las divisas que conforman la canasta del DEG, Respecto al peso mexicano, Euro"
+              }
+            });
 
             await insertIntoCCTipoCambioDivisas(ccData);
           }
@@ -86,9 +91,12 @@ const runTask = async () => {
             }
 
             const ccData = data.map((row, index) => {
+
+              const fechaConvertida = moment("1899-12-30").add(row.Fecha, "days").format("YYYY-MM-DD");
+
               const importeLiq = processedDataCA91[index]?.SF46410 || row.SF46410 || 0;
               return {
-                FECHA: row.Fecha,
+                FECHA: fechaConvertida,
                 IMPORTE_LIQ: importeLiq,
                 IMPORTE_FIX: 0,
                 TIPO: 'USD',
