@@ -1,0 +1,2 @@
+cd C:\Users\emy-domsa-tampico\Documents\Desarrollo\Planta\Costes\trunk\Costes\scrapping_baxico
+npm run dev
